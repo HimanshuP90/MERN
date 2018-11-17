@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Container, ListGroup, ListGroupItem, Button } from 'reactstrap';
+import { Container, ListGroup, ListGroupItem, Button, Alert } from 'reactstrap';
 import { CSSTransition, TransitionGroup} from 'react-transition-group';
 import { connect } from 'react-redux';
 import { getItems, deleteItems } from '../actions/itemActions';
@@ -15,19 +15,22 @@ class ShoppingList extends Component {
         this.props.deleteItems(id);
     }
     render(){
-        const { items } = this.props.item;
+        const { items, message } = this.props.item;
         return(
             <Container>
+                <Alert color="success" style={message ? {display: 'block'} : {display: 'none'}}>
+                    {message}
+                </Alert>
                 <ListGroup>
                     <TransitionGroup className="shopping-list">
-                        {items.map(({ id, name }) => (
-                            <CSSTransition key={id} timeout={500} classNames="fade">
+                        {items.map(({ _id, name }) => (
+                            <CSSTransition key={_id} timeout={500} classNames="fade">
                                 <ListGroupItem>
                                     <Button
                                         className="remove-btn"
                                         color="danger"
                                         size="sm"
-                                        onClick={this.onDeleteClick.bind(this, id)}
+                                        onClick={this.onDeleteClick.bind(this, _id)}
                                     >&times;</Button>
                                     {name} 
                                 </ListGroupItem>
@@ -46,7 +49,8 @@ ShoppingList.propTypes = {
 }
 
 const mapStateToProps = (state) => ({
-    item: state.item
+    item: state.item,
+    message: state.item
 });
 
 export default connect(

@@ -1,31 +1,36 @@
-import uuid from 'uuid';
-import {GET_ITEMS, ADD_ITEMS, DELETE_ITEMS} from '../actions/types';
+import {GET_ITEMS, ADD_ITEMS, DELETE_ITEMS, ITEMS_LOADING} from '../actions/types';
 
 const initialState = {
-    items: [
-        {id: uuid(), name: 'Eggs'},
-        {id: uuid(), name: 'Milks'},
-        {id: uuid(), name: 'Chocolate'},
-        {id: uuid(), name: 'Biscuits'},
-        {id: uuid(), name: 'Namkeen'}
-    ] 
+    items: [],
+    loading: false,
+    message: ''
 }
 
 export default function(state = initialState, action) {
-    switch(action.type) {
+    const { type, payload } = action;
+    switch(type) {
         case GET_ITEMS:
             return {
-                ...state
+                ...state,
+                items: payload,
+                loading: false
             };
         case DELETE_ITEMS:
             return {
                 ...state,
-                items: state.items.filter(item => item.id !== action.payload)
+                items: state.items.filter(item => item._id !== payload),
+                message: 'Successfully deleted item from list ... !!!'
+
             };
         case ADD_ITEMS:
             return {
                 ...state,
-                items: [action.payload, ...state.items]
+                items: [payload, ...state.items]
+            }
+        case ITEMS_LOADING:
+            return {
+                ...state,
+                loading: true
             }
         default: 
             return state;
