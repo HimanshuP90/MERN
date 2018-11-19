@@ -6,16 +6,19 @@ import { getItems, deleteItems } from '../actions/itemActions';
 import { PropTypes } from 'prop-types';
 
 class ShoppingList extends Component {
-
+    state = {
+        message: ''
+    }
     componentDidMount() {
         this.props.getItems();
     }
 
     onDeleteClick = id => {
-        this.props.deleteItems(id);
+        this.props.deleteItems(id).then(res => this.setState({message: res.data.message}));
     }
     render(){
-        const { items, message } = this.props.item;
+        const { items } = this.props.item;
+        const { message } = this.state;
         return(
             <Container>
                 <Alert color="success" style={message ? {display: 'block'} : {display: 'none'}}>
@@ -50,7 +53,6 @@ ShoppingList.propTypes = {
 
 const mapStateToProps = (state) => ({
     item: state.item,
-    message: state.item
 });
 
 export default connect(

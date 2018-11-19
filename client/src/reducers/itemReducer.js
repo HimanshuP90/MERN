@@ -2,11 +2,10 @@ import {GET_ITEMS, ADD_ITEMS, DELETE_ITEMS, ITEMS_LOADING} from '../actions/type
 
 const initialState = {
     items: [],
-    loading: false,
-    message: ''
+    loading: false
 }
 
-export default function(state = initialState, action) {
+function itemReducer(state = initialState, action) {
     const { type, payload } = action;
     switch(type) {
         case GET_ITEMS:
@@ -18,9 +17,7 @@ export default function(state = initialState, action) {
         case DELETE_ITEMS:
             return {
                 ...state,
-                items: state.items.filter(item => item._id !== payload),
-                message: 'Successfully deleted item from list ... !!!'
-
+                items: state.items.filter(item => item._id !== payload)
             };
         case ADD_ITEMS:
             return {
@@ -36,3 +33,5 @@ export default function(state = initialState, action) {
             return state;
     }
 }
+
+export default itemReducer;
