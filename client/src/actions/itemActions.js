@@ -12,12 +12,18 @@ export const getItems = () => dispatch => {
 };
 
 export const deleteItems = id => dispatch =>{
-    axios
+    return new Promise((resolve, reject) => {
+        axios
         .delete(`/api/items/${id}`)
-        .then(res => dispatch({
-            type: DELETE_ITEMS,
-            payload: {id, res}
-        }))
+        .then(res => {
+            dispatch({
+                type: DELETE_ITEMS,
+                payload: id
+            });
+            resolve(res);
+        })
+    })
+    
 };
 
 export const addItems = item => dispatch =>{
