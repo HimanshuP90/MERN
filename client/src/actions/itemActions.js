@@ -22,6 +22,9 @@ export const deleteItems = id => dispatch =>{
             });
             resolve(res);
         })
+        .catch((error) => {
+            reject(error)
+        })
     })
     
 };

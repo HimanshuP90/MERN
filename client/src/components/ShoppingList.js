@@ -14,7 +14,9 @@ class ShoppingList extends Component {
     }
 
     onDeleteClick = id => {
-        this.props.deleteItems(id).then(res => this.setState({message: res.data.message}));
+        this.props.deleteItems(id)
+            .then(res => this.setState({message: res.data.message}))
+            .catch(err => this.setState({message: err.response.data.message}))
     }
     render(){
         const { items } = this.props.item;
